@@ -6,7 +6,7 @@ import httpErrorHandler from '@middy/http-error-handler'
 import createError from 'http-errors'
 import { setAuctionPictureUrl } from '../lib/setAuctionPictureUrl'
 import uploadAuctionPictureSchema from '../lib/schemas/uploadAuctionPictureSchema'
-
+import cors from '@middy/http-cors'
 
 export async function uploadAuctionPicture(event){
 
@@ -44,3 +44,4 @@ export async function uploadAuctionPicture(event){
 export const handler = middy(uploadAuctionPicture)
     .use(httpErrorHandler())
     .use(validator({ inputSchema: uploadAuctionPictureSchema}))
+    .use(cors())
