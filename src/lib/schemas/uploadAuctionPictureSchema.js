@@ -3,10 +3,9 @@ const schema = {
         body: {
             type: 'string',
             minLength: 1,
-            pattern: '\=$'
         },
-        required: ['body']
-    }
+    },
+    required: ['body'],
 }
 
 export default schema;

@@ -12,16 +12,17 @@ export async function uploadAuctionPicture(event){
 
     const { id } = event.pathParameters
     const { email } =  event.requestContext.authorizer
-
-    //validate seller
-    if(auction.seller !== email){
-        throw new createError.Forbidden(`You are not the seller of this item`)
-    }
     const auction = await getAuctionById(id);
     const base64 = event.body.replace(/^data:image\/\w+;base64,/, '');
     const buffer = Buffer.from(base64, 'base64');
 
     let updatedAuction;
+
+    //validate seller
+    if(auction.seller !== email){
+        throw new createError.Forbidden(`You are not the seller of this item`)
+    }
+    
 
     try{
         const pictureUrl = await uploadPictureToS3(auction.id + '.jpg', buffer);
@@ -37,6 +38,11 @@ export async function uploadAuctionPicture(event){
 
     return{
         statusCode: 200,
+        headers:{
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true
+
+        },
         body: JSON.stringify(updatedAuction)
     }
 
@@ -44,4 +50,4 @@ export async function uploadAuctionPicture(event){
 export const handler = middy(uploadAuctionPicture)
     .use(httpErrorHandler())
     .use(validator({ inputSchema: uploadAuctionPictureSchema}))
-    .use(cors())
+    .use(cors());

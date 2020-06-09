@@ -38,6 +38,10 @@ async function createAuction(event, context){
   }
  
   return {
+    headers:{
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
     statusCode: 201,
     body: JSON.stringify(auction),
   };

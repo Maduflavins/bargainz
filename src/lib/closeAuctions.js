@@ -46,7 +46,7 @@ export async function closeAuction(auction){
         MessageBody: JSON.stringify({
             subject: 'You won an auction',
             receipient: 'bidder',
-            body: `Congratulations you just got yourself a ${title} for ${amount}`,
+            body: `Congratulations you just got yourself a ${title} for ${amount} please reply this email with your details for your item collection`,
         })
     }).promise();
 
